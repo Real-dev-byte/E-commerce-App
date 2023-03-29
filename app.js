@@ -203,9 +203,13 @@ document.getElementById("cart").onclick = function (event) {
   console.log("Items in the cart are: ", cartItems);
 
   let productList = document.getElementById("buy");
-  document.getElementById("buy").innerHTML = "";
+  let total = document.getElementById("total");
+  let buyNow = document.getElementById("buynow");
+  productList.innerHTML = "";
+  total.innerHTML="";
+  
 
-  var totalPrice = 0,
+  let totalPrice = 0,
     itemCount = 0;
   for (let itemId in cartItems) {
     console.log(itemId, cartItems[itemId]);
@@ -242,7 +246,7 @@ document.getElementById("cart").onclick = function (event) {
   }
 
   if (Object.keys(cartItems).length) {
-    let total = document.getElementById("total");
+    buyNow.classList.remove('hide');
     total.innerHTML = "Subtotal (" + itemCount + " items):   $" + totalPrice;
   }
 
