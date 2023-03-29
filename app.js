@@ -123,7 +123,7 @@ function getFilteredProducts(selectedCategory, selectedGender, selectedBrand) {
   let productList = document.getElementById("products");
   document.getElementById("products").innerHTML = "";
   for (const prop in data) {
-    if(data[prop]["items_left"] === 0){
+    if (data[prop]["items_left"] === 0) {
       continue;
     }
     const isCategory =
@@ -188,7 +188,7 @@ function getFilteredProducts(selectedCategory, selectedGender, selectedBrand) {
 function updateCartItems(productId, productObj) {
   if ("couponApplied" in productObj) {
     cartItems[productId].discount = productObj.couponApplied;
-  } else if (productId in cartItems) { 
+  } else if (productId in cartItems) {
     if (productObj.qty === 0) {
       delete cartItems[productId];
     } else {
@@ -205,24 +205,33 @@ document.getElementById("cart").onclick = function (event) {
   let productList = document.getElementById("buy");
   document.getElementById("buy").innerHTML = "";
 
-  var totalPrice = 0, itemCount = 0;
+  var totalPrice = 0,
+    itemCount = 0;
   for (let itemId in cartItems) {
     console.log(itemId, cartItems[itemId]);
 
     let li = document.createElement("li");
     var props = "";
     props += `<div style="display: block;">`;
-    props += `<img class="buyimagebox" src="${data[itemId-1]["imageURL"]}"/>`;
+    props += `<img class="buyimagebox" src="${data[itemId - 1]["imageURL"]}"/>`;
     props += `<div style="display: flex; flex-direction: column; float: left;">`;
-    props += `<p  style=" float: left; margin-left: 10px;">${data[itemId-1]["name"]}</p>`;
+    props += `<p  style=" float: left; margin-left: 10px;">${
+      data[itemId - 1]["name"]
+    }</p>`;
     props += `<p  style=" text-align: left; margin-left: 10px;">Qty: ${cartItems[itemId].qty}</p>`;
     itemCount += cartItems[itemId].qty;
-    if(cartItems[itemId].discount){
-      totalPrice += parseInt(cartItems[itemId].qty*0.9*data[itemId-1]["price"]);
-      props += `<p  style=" text-align: left; margin-left: 10px;">Price: $${0.9*data[itemId-1]["price"]}</p>`;
-    }else{
-      totalPrice += parseInt(cartItems[itemId].qty*data[itemId-1]["price"]);
-      props += `<p  style=" text-align: left; margin-left: 10px;">Price: $${data[itemId-1]["price"]}</p>`;
+    if (cartItems[itemId].discount) {
+      totalPrice += parseInt(
+        cartItems[itemId].qty * 0.9 * data[itemId - 1]["price"]
+      );
+      props += `<p  style=" text-align: left; margin-left: 10px;">Price: $${
+        0.9 * data[itemId - 1]["price"]
+      }</p>`;
+    } else {
+      totalPrice += parseInt(cartItems[itemId].qty * data[itemId - 1]["price"]);
+      props += `<p  style=" text-align: left; margin-left: 10px;">Price: $${
+        data[itemId - 1]["price"]
+      }</p>`;
     }
 
     props += `</div>`;
@@ -232,32 +241,26 @@ document.getElementById("cart").onclick = function (event) {
     productList.appendChild(li);
   }
 
-
-  if(Object.keys(cartItems).length){
+  if (Object.keys(cartItems).length) {
     let total = document.getElementById("total");
-    total.innerHTML = "Subtotal ("+ itemCount +" items):   $" + totalPrice;
+    total.innerHTML = "Subtotal (" + itemCount + " items):   $" + totalPrice;
   }
-    
-  
-
 
   document.getElementById("overlay").style.display = "block";
 };
-
 
 document.getElementById("overlay").onclick = function (event) {
   document.getElementById("overlay").style.display = "none";
 };
 
-
 document.getElementById("buynow").onclick = function (event) {
-  console.log('Items Ordered', cartItems)
-  
+  console.log("Items Ordered", cartItems);
+  alert('Thank you, your order has been placed')
   //update inventory
-  for(let key in cartItems){
-    data[key-1]["items_left"] -= cartItems[key].qty;
+  for (let key in cartItems) {
+    data[key - 1]["items_left"] -= cartItems[key].qty;
   }
 
-  Object.keys(cartItems).forEach(key => delete cartItems[key]);
+  Object.keys(cartItems).forEach((key) => delete cartItems[key]);
   getFilteredProducts(null, null, null);
 };
