@@ -248,6 +248,11 @@ document.getElementById("cart").onclick = function (event) {
   if (Object.keys(cartItems).length) {
     buyNow.classList.remove('hide');
     total.innerHTML = "Subtotal (" + itemCount + " items):   $" + totalPrice;
+  }else{
+    if(!buyNow.classList.contains('hide')){
+      buyNow.classList.add('hide');
+    }
+    
   }
 
   document.getElementById("overlay").style.display = "block";
